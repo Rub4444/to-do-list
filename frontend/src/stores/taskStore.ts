@@ -2,12 +2,14 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import api from '../api';
 
+
 export interface Task {
     id: number;
     title: string;
     is_done: boolean;
     created_at?: string;
     updated_at?: string;
+    completed_at?: string | null;
 }
 
 export type TaskFilter = 'all' | 'active' | 'done';

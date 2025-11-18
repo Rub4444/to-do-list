@@ -32,10 +32,24 @@ class TaskController extends Controller
             'is_done' => 'sometimes|boolean',
         ]);
 
+        // Если пришло поле is_done — управляем completed_at
+        if (array_key_exists('is_done', $data)) {
+            // если задача становится выполненной
+            if ($data['is_done'] && !$task->is_done && $task->completed_at === null) {
+                $data['completed_at'] = now();
+            }
+
+            // если задачу снова сделали невыполненной
+            if (!$data['is_done']) {
+                $data['completed_at'] = null;
+            }
+        }
+
         $task->update($data);
 
         return response()->json($task);
     }
+
 
     public function destroy(Task $task)
     {
